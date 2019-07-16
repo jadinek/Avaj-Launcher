@@ -9,7 +9,7 @@ class JetPlane extends Aircraft implements Flyable{
                 case "Sun":
                     coordinates.setLatitude(10);
                     coordinates.setHeight(2);
-                    System.out.println("JetPlane" + name + "(" + id + "): " + "Suns out, guns out.");
+                    System.out.println("JetPlane" + name + "(" + id + "): " + "Sun's out, guns out.");
                     break;
                 case "Rain":
                     coordinates.setLatitude(5);
@@ -32,9 +32,8 @@ class JetPlane extends Aircraft implements Flyable{
             }
         }
     };
-    public void registerTower(WeatherTower weatherTower){};
 
-    public void registerTower(){
+    public void registerTower(WeatherTower weatherTower){
         System.out.println("Tower says: JetPlane#" + name + "(" + id + ") " + "registered to weather tower.");
     };
     public void unregisterTower(){
@@ -45,5 +44,5 @@ class JetPlane extends Aircraft implements Flyable{
     };
     
     private WeatherTower weatherTower = new WeatherTower();
-    boolean hasLanded = false;
+    private boolean hasLanded = false;
 }

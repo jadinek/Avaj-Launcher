@@ -2,9 +2,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Simulator{
     private static List<Flyable>flyables = new ArrayList<Flyable>();
+    private static WeatherTower weatherTower;
     public static void main(String[] arg) throws InterruptedException{
         PrintStream stdout = System.out;
         try{
@@ -16,10 +16,11 @@ public class Simulator{
             BufferedReader reader = new BufferedReader(new FileReader(arg[0]));
             String line = reader.readLine();
             if (line != null){
+                weatherTower = new WeatherTower();
                 int simulations = Integer.parseInt(line.split(" ")[0]);
                 if (simulations < 0){
-                    System.out.println("Invalid simulations count " + simulations);
-                    System.exit(1);
+                    reader.close();
+                    throw new CustomException("message");
                 }
                 while((line = reader.readLine()) != null){
                     // ignores blank lines
@@ -35,8 +36,9 @@ public class Simulator{
                 }
                 for (Flyable flyable :flyables){
                     // ignores invalid types
-                    if(flyable != null)
-                        flyable.registerTower();
+                    if(flyable != null){
+                        flyable.registerTower(weatherTower);
+                    }
                 }
                 for (int i = 1; i <= simulations; i++){
                     for (Flyable flyable :flyables){
@@ -60,6 +62,9 @@ public class Simulator{
         } catch (NumberFormatException nfe) {
             System.setOut(stdout);
             System.out.println("File contains invalid input data.");
+        } catch (CustomException e){
+            System.setOut(stdout);
+            System.out.println("Invalid simulations count.");
         }
     }
 }
